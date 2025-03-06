@@ -1,6 +1,6 @@
 import { Router } from 'express';
 const router = Router();
-import appRoutes from './appRoutes.js';
+import appRoutes from './reactionRoutes.js';
 import userRoutes from './userRoutes.js';
 
 router.use('/apps', appRoutes);

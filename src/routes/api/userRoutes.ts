@@ -1,11 +1,23 @@
 import { Router } from 'express';
+import {
+  getAllUsers,
+  getUserById,
+  createUser,
+  updateUser,
+  deleteUser,
+} from '../../controllers/userController';
+
 const router = Router();
-import { getUsers, getSingleUser, createUser } from '../../controllers/userController.js';
 
-// /api/users
-router.route('/').get(getUsers).post(createUser);
+// Route: /api/users
+router.route('/')
+  .get(getAllUsers)   // GET all users
+  .post(createUser);  // POST a new user
 
-// /api/users/:userId
-router.route('/:userId').get(getSingleUser);
+// Route: /api/users/:id
+router.route('/:id')
+  .get(getUserById)   // GET a single user by ID (populated with thoughts & friends)
+  .put(updateUser)    // PUT to update a user by ID
+  .delete(deleteUser);// DELETE a user by ID
 
 export default router;
