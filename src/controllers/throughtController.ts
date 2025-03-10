@@ -3,12 +3,12 @@ import Thought from '../models/Thought';
 import User from '../models/User';
 
 // Get all thoughts
-export const getAllThoughts = async (req: Request, res: Response) => {
+export const getAllThoughts = async (_: Request, res: Response) => {
   try {
     const thoughts = await Thought.find();
-    res.json(thoughts);
+    return res.json(thoughts);
   } catch (err) {
-    res.status(500).json(err);
+    return res.status(500).json(err);
   }
 };
 
@@ -21,9 +21,9 @@ export const getThoughtById = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'Thought not found' });
     }
 
-    res.json(thought);
+    return res.json(thought);
   } catch (err) {
-    res.status(500).json(err);
+    return res.status(500).json(err);
   }
 };
 
@@ -37,9 +37,9 @@ export const createThought = async (req: Request, res: Response) => {
       $push: { thoughts: thought._id },
     });
 
-    res.json(thought);
+    return res.json(thought);
   } catch (err) {
-    res.status(500).json(err);
+    return res.status(500).json(err);
   }
 };
 
@@ -55,9 +55,9 @@ export const updateThought = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'Thought not found' });
     }
 
-    res.json(thought);
+    return res.json(thought);
   } catch (err) {
-    res.status(500).json(err);
+    return res.status(500).json(err);
   }
 };
 
@@ -75,9 +75,9 @@ export const deleteThought = async (req: Request, res: Response) => {
       $pull: { thoughts: thought._id },
     });
 
-    res.json({ message: 'Thought deleted' });
+    return res.json({ message: 'Thought deleted' });
   } catch (err) {
-    res.status(500).json(err);
+    return res.status(500).json(err);
   }
 };
 
@@ -94,9 +94,9 @@ export const addReaction = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'Thought not found' });
     }
 
-    res.json(thought);
+    return res.json(thought);
   } catch (err) {
-    res.status(500).json(err);
+    return res.status(500).json(err);
   }
 };
 
@@ -113,8 +113,8 @@ export const removeReaction = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'Thought not found' });
     }
 
-    res.json(thought);
+    return res.json(thought);
   } catch (err) {
-    res.status(500).json(err);
+    return res.status(500).json(err);
   }
 };
