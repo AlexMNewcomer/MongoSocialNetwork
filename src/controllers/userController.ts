@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import User from '../models/User';
-import Thought from '../models/Thought';
+// import Thought from '../models/Thought';
 
 // Get all users
 export const getAllUsers = async (_: Request, res: Response) => {
@@ -13,19 +13,22 @@ export const getAllUsers = async (_: Request, res: Response) => {
 };
 
 // Get a single user by ID
-export const getUserById = async (req: Request, res: Response) => {
+export const getUserById = async (req: Request, res: Response): Promise<void> => {
   try {
     const user = await User.findById(req.params.id)
       .populate('thoughts')
       .populate('friends');
 
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      res.status(404).json({ message: 'User not found' });
+      return; 
     }
 
     res.json(user);
+    return; 
   } catch (err) {
     res.status(500).json(err);
+    return; 
   }
 };
 
@@ -40,7 +43,7 @@ export const createUser = async (req: Request, res: Response) => {
 };
 
 // Update a user by ID
-export const updateUser = async (req: Request, res: Response) => {
+export const updateUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const user = await User.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -48,35 +51,37 @@ export const updateUser = async (req: Request, res: Response) => {
     });
 
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      res.status(404).json({ message: 'User not found' });
+      return;
     }
 
     res.json(user);
+    return; // Explicitly return
   } catch (err) {
     res.status(500).json(err);
+    return; // Explicitly return
   }
 };
 
 // Delete a user by ID
-export const deleteUser = async (req: Request, res: Response) => {
+export const deleteUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const user = await User.findByIdAndDelete(req.params.id);
 
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      res.status(404).json({ message: 'User not found' });
+      return; // Ensure function exits after sending response
     }
 
-    // Remove associated thoughts
-    await Thought.deleteMany({ _id: { $in: user.thoughts } });
-
-    res.json({ message: 'User and associated thoughts deleted' });
+    res.json({ message: 'User deleted' });
+    return; // Explicitly return
   } catch (err) {
     res.status(500).json(err);
+    return; // Explicitly return
   }
 };
-
 // Add a friend
-export const addFriend = async (req: Request, res: Response) => {
+export const addFriend = async (req: Request, res: Response): Promise<void> => {
   try {
     const user = await User.findByIdAndUpdate(
       req.params.userId,
@@ -85,17 +90,20 @@ export const addFriend = async (req: Request, res: Response) => {
     );
 
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      res.status(404).json({ message: 'User not found' });
+      return;
     }
 
     res.json(user);
+    return;
   } catch (err) {
     res.status(500).json(err);
+    return;
   }
 };
 
 // Remove a friend
-export const removeFriend = async (req: Request, res: Response) => {
+export const removeFriend = async (req: Request, res: Response): Promise<void> => {
   try {
     const user = await User.findByIdAndUpdate(
       req.params.userId,
@@ -104,11 +112,14 @@ export const removeFriend = async (req: Request, res: Response) => {
     );
 
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      res.status(404).json({ message: 'User not found' });
+      return;
     }
 
     res.json(user);
+    return;
   } catch (err) {
     res.status(500).json(err);
+    return;
   }
 };
