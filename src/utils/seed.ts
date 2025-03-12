@@ -1,30 +1,24 @@
 import connection from '../config/connection.js';
-import { User, Application } from '../models/index';
-import { getRandomName, getRandomApplications } from './data';
+import { User } from '../models/index';
+import { getRandomName } from './data'; // Removed getRandomApplications
 
 
-connection.on('error', (err) => err);
+connection.on('error', (err) => console.error(err));
 
 connection.once('open', async () => {
-  console.log('connected');
-  // Delete the collections if they exist
-  let applicationCheck = await connection.db?.listCollections({ name: 'applications' }).toArray();
-  if (applicationCheck?.length) {
-    await connection.dropCollection('applications');
-  }
-  
-  let userCheck = await connection.db?.listCollections({ name: 'users' }).toArray();
+  console.log('Connected to database');
+
+  // Delete the 'users' collection if it exists
+  const userCheck = await connection.db?.listCollections({ name: 'users' }).toArray();
   if (userCheck?.length) {
     await connection.dropCollection('users');
   }
 
   const users = [];
-  const applications = getRandomApplications(10);
 
   for (let i = 0; i < 20; i++) {
     const fullName = getRandomName();
-    const first = fullName.split(' ')[0];
-    const last = fullName.split(' ')[1];
+    const [first, last] = fullName.split(' ');
 
     users.push({
       first,
@@ -33,12 +27,10 @@ connection.once('open', async () => {
     });
   }
 
+  // Insert users into the database
   await User.insertMany(users);
-  await Application.insertMany(applications);
 
-  // loop through the saved applications, for each application we need to generate a application response and insert the application responses
   console.table(users);
-  console.table(applications);
   console.info('Seeding complete! 🌱');
   process.exit(0);
 });
