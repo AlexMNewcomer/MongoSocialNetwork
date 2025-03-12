@@ -1,22 +1,30 @@
 import { Router } from 'express';
 const router = Router();
 
-import { getApplications, getSingleApplication, createApplication, updateApplication, deleteApplication, addTag, removeTag } from '../../controllers/thoughtController.js';
+import { 
+  getAllThoughts, 
+  getThoughtById, 
+  createThought, 
+  updateThought, 
+  deleteThought, 
+  addReaction, 
+  removeReaction 
+} from '../../controllers/thoughtController';
 
-// /api/applications
-router.route('/').get(getApplications).post(createApplication);
+// /api/thoughts
+router.route('/').get(getAllThoughts).post(createThought);
 
-// /api/applications/:applicationId
+// /api/thoughts/:thoughtId
 router
-  .route('/:applicationId')
-  .get(getSingleApplication)
-  .put(updateApplication)
-  .delete(deleteApplication);
+  .route('/:thoughtId')
+  .get(getThoughtById)
+  .put(updateThought)
+  .delete(deleteThought);
 
-// /api/applications/:applicationId/tags
-router.route('/:applicationId/tags').post(addTag);
+// /api/thoughts/:thoughtId/reactions
+router.route('/:thoughtId/reactions').post(addReaction);
 
-// /api/applications/:applicationId/tags/:tagId
-router.route('/:applicationId/tags/:tagId').delete(removeTag);
+// /api/thoughts/:thoughtId/reactions/:reactionId
+router.route('/:thoughtId/reactions/:reactionId').delete(removeReaction);
 
 export default router;
