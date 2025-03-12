@@ -1,6 +1,7 @@
 import connection from '../config/connection.js';
-import { User, Application } from '../models/index.js';
-import { getRandomName, getRandomApplications } from './data.js';
+import { User, Application } from '../models/index';
+import { getRandomName, getRandomApplications } from './data';
+
 
 connection.on('error', (err) => err);
 
