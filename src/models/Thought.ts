@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import ReactionSchema from './Reaction';
+import ReactionSchema from './Reaction.js';
 
 const ThoughtSchema = new Schema(
   {

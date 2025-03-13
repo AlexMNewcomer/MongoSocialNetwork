@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 
-import { getAllThoughts, getThoughtById, createThought, updateThought, deleteThought, addReaction, removeReaction } from '../../controllers/thoughtController';
+import { getAllThoughts, getThoughtById, createThought, updateThought, deleteThought, addReaction, removeReaction } from '../../controllers/thoughtController.js';
 
 const router = express.Router();
 
