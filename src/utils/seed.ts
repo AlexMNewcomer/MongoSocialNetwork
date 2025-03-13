@@ -1,5 +1,5 @@
 import connection from '../config/connection.js';
-import { User } from '../models/index';
+import { User } from '../routes/api/index';
 import { getRandomName } from './data'; // Removed getRandomApplications
 
 
